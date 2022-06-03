@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default React.memo(function BalanceItem({testID, balance, onPress}: Props) {
-  const {symbol, amount, dailyChangePercentage} = balance;
+  const {symbol, amount} = balance;
 
   const emitPress = () => onPress(balance);
 
@@ -27,7 +27,7 @@ export default React.memo(function BalanceItem({testID, balance, onPress}: Props
       }}>
       <Text>{symbol.name} </Text>
       <Text>{amount} </Text>
-      <Text>{dailyChangePercentage}%</Text>
+      <Text>{symbol.dailyChangePercentage}%</Text>
     </TouchableOpacity>
   );
 });

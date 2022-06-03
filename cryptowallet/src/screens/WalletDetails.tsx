@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ListRenderItem, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
 import BalanceItem from '../components/BalanceItem';
 import {useAppContext} from '../context/context';
 import {Balance} from '../api/apiService';
@@ -25,7 +25,7 @@ export default function WalletDetails() {
       return <Text>LOADING</Text>;
     case 'success':
       return (
-        <ScrollView style={styles.root}>
+        <View style={styles.root}>
           <View style={styles.balance}>
             <Text style={styles.heading}>Total Balance:</Text>
             <Text testID={WALLET.PRICE} style={styles.heading}>
@@ -42,7 +42,7 @@ export default function WalletDetails() {
               initialNumToRender={20}
             />
           )}
-        </ScrollView>
+        </View>
       );
     case 'error':
       return <Text>{data.message}</Text>;
@@ -58,5 +58,5 @@ WalletDetails.options = () => ({
 const styles = StyleSheet.create({
   root: {flex: 1, paddingHorizontal: 20},
   heading: {fontSize: 20},
-  balance: {flex: 1, flexDirection: 'row'},
+  balance: {flexDirection: 'row'},
 });
