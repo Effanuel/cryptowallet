@@ -1,9 +1,11 @@
 import React from 'react';
-import type {WalletApiService} from '../redux/api/apiService';
+import type {WalletApiService} from '../api/apiService';
+import {Navigator} from './navigator';
 
 export interface AppContext {
   componentId: string;
   apiService: WalletApiService;
+  navigator: Navigator;
 }
 
 export const AppContext = React.createContext<AppContext | undefined>(undefined);

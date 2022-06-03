@@ -1,13 +1,16 @@
 import {Navigation} from 'react-native-navigation';
-import {AppStore} from '../redux/configureStore';
 import {Screen} from './names';
 import {addProviders, System} from './wrappers';
 
 export function registerScreens(system: System) {
   const screens = [
     {
-      id: Screen.WalletPreview,
-      render: () => addProviders(require('../screens/WalletPreview').default, system),
+      id: Screen.WalletDetails,
+      render: () => addProviders(require('../screens/WalletDetails').default, system),
+    },
+    {
+      id: Screen.CurrencyDetails,
+      render: () => addProviders(require('../screens/CurrencyDetails').default, system),
     },
   ];
 
@@ -35,6 +38,6 @@ export function registerAppListener() {
 
 function setRootHomeScreen() {
   Navigation.setRoot({
-    root: {stack: {children: [{component: {name: Screen.WalletPreview}}]}},
+    root: {stack: {children: [{component: {name: Screen.WalletDetails}}]}},
   });
 }

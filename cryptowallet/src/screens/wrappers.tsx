@@ -1,16 +1,14 @@
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import React from 'react';
-import {Provider} from 'react-redux';
-import {WalletApiService} from '../redux/api/apiService';
-import {AppStore} from '../redux/configureStore';
-import {AppContext} from './context';
+import {WalletApiService} from '../api/apiService';
+import {AppContext} from '../context/context';
+import {createNavigator} from '../context/navigator';
 
 export interface System {
-  store: () => AppStore;
   api: () => WalletApiService;
 }
 
-interface LifecycleMethods {
+export interface LifecycleMethods {
   shouldDismissModal?: () => boolean;
   onRegainConnectivity?: () => void;
 }
@@ -21,7 +19,6 @@ interface ReactNavigationProps {
 }
 
 export function addProviders<T>(Component: React.ComponentType<T>, system: System): React.ComponentType<T> {
-  console.log(system, 123);
   function ProviderWrapper(props: T & ReactNavigationProps) {
     const {componentId} = props;
 
@@ -29,15 +26,14 @@ export function addProviders<T>(Component: React.ComponentType<T>, system: Syste
       return {
         componentId,
         apiService: system.api(),
+        navigator: createNavigator(componentId),
       };
     }, [componentId]);
 
     return (
-      <Provider store={system.store()}>
-        <AppContext.Provider value={context}>
-          <Component {...props} />
-        </AppContext.Provider>
-      </Provider>
+      <AppContext.Provider value={context}>
+        <Component {...props} />
+      </AppContext.Provider>
     );
   }
 

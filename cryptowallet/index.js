@@ -1,6 +1,5 @@
 import {registerScreens, registerAppListener} from './src/screens/index';
-import {createStore} from './src/redux/configureStore';
-import {WalletApiService} from './src/redux/api/apiService';
+import {WalletApiService} from './src/api/apiService';
 
-registerScreens({store: () => createStore(), api: () => new WalletApiService()});
+registerScreens({api: () => new WalletApiService()});
 registerAppListener();

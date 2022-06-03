@@ -1,3 +1,4 @@
 export enum Screen {
-  WalletPreview = 'WalletPreview',
+  WalletDetails = 'WalletDetails',
+  CurrencyDetails = 'CurrencyDetails',
 }

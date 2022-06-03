@@ -1,5 +1,11 @@
-interface Balance {
-  symbol: string;
+interface ISymbol {
+  id: string;
+  name: string;
+  currentPrice: number;
+}
+
+export interface Balance {
+  symbol: ISymbol;
   amount: number;
   dailyChangePercentage: number;
 }
@@ -10,17 +16,17 @@ export interface Wallet {
 }
 
 export class WalletApiService {
-  fetchWalletBalances = async (): Promise<Wallet> => {
+  fetchWalletBalance = async (): Promise<Wallet> => {
     return {
       totalUSD: 123,
       balances: [
         {
-          symbol: 'BTC',
+          symbol: {id: 'bitcoin', name: 'BTC', currentPrice: 321},
           amount: 0.1,
           dailyChangePercentage: -3,
         },
         {
-          symbol: 'ETH',
+          symbol: {id: 'eth', name: 'ETH', currentPrice: 15000},
           amount: 2,
           dailyChangePercentage: -3,
         },

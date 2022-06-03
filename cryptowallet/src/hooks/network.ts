@@ -1,7 +1,5 @@
 import React from 'react';
-import {useAppDispatch} from '../redux/configureStore';
-import {Action, AppState} from '../redux/modules/state';
-import {AppContext, useAppContext} from '../screens/context';
+import {AppContext, useAppContext} from '../context/context';
 
 interface Options<P> {
   params?: P;
@@ -20,14 +18,12 @@ interface State<T> {
 
 type Configurator<T, P> = (context: AppContext) => {
   execute: (params: P | undefined) => Promise<T>;
-  save: (data: T, params: P | undefined) => Action;
 };
 
 export function useNetworkExecutor<T, P>({params}: Options<P>, configurator: Configurator<T, P>): Status<T> {
-  const dispatch = useAppDispatch();
   const appContext = useAppContext();
 
-  const {execute, save} = React.useMemo(() => configurator(appContext), [appContext]);
+  const {execute} = React.useMemo(() => configurator(appContext), [appContext]);
 
   const [state, setState] = React.useState((): State<T> => {
     return {
@@ -39,15 +35,12 @@ export function useNetworkExecutor<T, P>({params}: Options<P>, configurator: Con
     let isMounted = true;
 
     const triggerDataLoad = async () => {
-      await execute(params)
-        .then((data) => {
-          console.log('TRIGGER');
-          setState((prevState) => ({...prevState, status: {type: 'success' as const, result: data}}));
-          dispatch(save(data, params));
-        })
-        .catch(() => {
-          setState((prevState) => ({...prevState, status: {type: 'error', message: 'Error'}}));
-        });
+      try {
+        const data = await execute(params);
+        setState((prevState) => ({...prevState, status: {type: 'success' as const, result: data}}));
+      } catch (err) {
+        setState((prevState) => ({...prevState, status: {type: 'error', message: 'Error'}}));
+      }
     };
 
     if (isMounted) {
