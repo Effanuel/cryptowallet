@@ -75,7 +75,7 @@ export function createNavigator(
 
   return {
     openCurrencyDetails: (props) => {
-      pushToStack(Screen.CurrencyDetails, {...props});
+      pushToStack(Screen.CurrencyDetails, {...props}, {title: 'Ticker'});
     },
     setDisabled: () => {
       isEnabled = false;

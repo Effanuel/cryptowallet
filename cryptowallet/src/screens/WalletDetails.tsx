@@ -13,7 +13,10 @@ export default function WalletDetails() {
 
   const data = useWalletQuery();
 
-  const openCurrencyDetails = React.useCallback((balance: Balance) => navigator.openCurrencyDetails({balance}), []);
+  const openCurrencyDetails = React.useCallback(
+    (balance: Balance) => navigator.openCurrencyDetails({balance}),
+    [navigator],
+  );
 
   const renderBalanceItem: ListRenderItem<Balance> = React.useCallback(
     ({item}) => <BalanceItem testID={WALLET.ROW} balance={item} onPress={openCurrencyDetails} />,

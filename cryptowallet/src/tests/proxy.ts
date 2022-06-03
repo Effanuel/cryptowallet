@@ -20,7 +20,6 @@ export const tracker: Tracker = (key, mocks, logger) => {
   }
 
   return matchedMock?.promise.then((value) => {
-    console.log('TRIGGER ME');
     logger(matchedMock.id, matchedMock.params);
     return value;
   });
