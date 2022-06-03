@@ -1,10 +1,13 @@
 import React from 'react';
-import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ListRenderItem} from 'react-native';
+import {Text, View} from 'react-native-ui-lib';
 import BalanceItem from '../components/BalanceItem';
 import {useAppContext} from '../context/context';
 import {Balance} from '../api/apiService';
 import {useWalletQuery} from '../api/actions';
 import {WALLET} from '../test-ids';
+import TotalBalanceSection from '../components/TotalBalanceSection';
+import Divider from '../components/Divider';
 
 const keyExtractor = (balance: Balance) => balance.symbol.id;
 
@@ -28,15 +31,13 @@ export default function WalletDetails() {
       return <Text>LOADING</Text>;
     case 'success':
       return (
-        <View style={styles.root}>
-          <View style={styles.balance}>
-            <Text style={styles.heading}>Total Balance:</Text>
-            <Text testID={WALLET.PRICE} style={styles.heading}>
-              {data.result.totalUSD}
-            </Text>
-          </View>
+        <View bg-dark paddingT-s4 flex paddingH-s5>
+          <TotalBalanceSection amount={data.result.totalUSD} />
+          <Divider />
           {data.result.totalUSD === 0 ? (
-            <Text testID={WALLET.EMPTY_STATE}>You balance is empty</Text>
+            <Text white text60L center testID={WALLET.EMPTY_STATE}>
+              You balance is currently empty.
+            </Text>
           ) : (
             <FlatList
               keyExtractor={keyExtractor}
@@ -56,10 +57,4 @@ WalletDetails.options = () => ({
   topBar: {
     title: {text: 'Wallet'},
   },
-});
-
-const styles = StyleSheet.create({
-  root: {flex: 1, paddingHorizontal: 20},
-  heading: {fontSize: 20},
-  balance: {flexDirection: 'row'},
 });

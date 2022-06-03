@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native-ui-lib';
 import {Balance} from '../api/apiService';
 
 interface Props {
@@ -17,17 +17,15 @@ export default React.memo(function BalanceItem({testID, balance, onPress}: Props
     <TouchableOpacity
       testID={testID}
       onPress={emitPress}
-      style={{
-        flexDirection: 'row',
-        backgroundColor: 'grey',
-        borderColor: 'red',
-        borderWidth: 1,
-        paddingVertical: 20,
-        paddingLeft: 8,
-      }}>
-      <Text>{symbol.name} </Text>
+      row
+      paddingL-s2
+      paddingV-s5
+      style={{borderBottomWidth: 1, borderBottomColor: 'grey', backgroundColor: 'green'}}>
+      <View>
+        <Text white>{symbol.baseSymbol} </Text>
+        <Text white>{balance.amount} </Text>
+      </View>
       <Text>{amount} </Text>
-      <Text>{symbol.dailyChangePercentage}%</Text>
     </TouchableOpacity>
   );
 });

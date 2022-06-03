@@ -25,10 +25,10 @@ export function registerAppListener() {
   Navigation.events().registerAppLaunchedListener(async () => {
     Navigation.setDefaultOptions({
       topBar: {
-        // title: {color: 'white'},
-        // subtitle: {color: 'white'},
-        // backButton: {color: 'white', showTitle: false},
-        // background: {color: '#121212'},
+        title: {color: 'white'},
+        subtitle: {color: 'white'},
+        backButton: {color: 'white', showTitle: false},
+        background: {color: '#1e1e1e'},
       },
       statusBar: {style: 'light'},
     });

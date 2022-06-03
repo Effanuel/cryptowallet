@@ -1,18 +1,31 @@
 import axios, {AxiosResponse} from 'axios';
 import {Ticker24hr} from './BinanceTypes';
 
+interface Ticker {
+  name: string;
+  currentPrice: number;
+  currencyFrom: string;
+  currencyFromScale: 8;
+  currencyTo: string;
+  currencyToScale: 2;
+  last: 0.00003361;
+  lastHP: 0.0000336140841426376249125599381725069145;
+  timestamp: 1654295725045;
+  friendlyLast: '1 USD = 0.00003361 BTC';
+}
+
 const balance: Record<string, number> = {
-  BTCUSDT: 0.31244124,
-  USDPUSDT: 0.32,
-  ETHUSDT: 0.327834478541236547,
-  SHIBUSDT: 131231567, // This replaced Banker, since Binance API doesn't have one
+  'BTC/USD': 0.31244124,
+  'USDP/USD': 0.32,
+  'ETH/USD': 0.327834478541236547,
+  'BNK/USD': 131231567,
 };
 
 interface ISymbol {
   id: string;
   name: string;
   currentPrice: number;
-  dailyChangePercentage: number;
+  baseSymbol: string;
 }
 
 export interface Balance {
@@ -26,27 +39,26 @@ export interface Wallet {
 }
 
 export class WalletApiService {
-  private request = async <T>(path: string, params: Record<string, unknown>): Promise<AxiosResponse<T>> =>
-    axios.get(`https://api.binance.com${path}`, {params});
+  private fetchBatchTickers = (tickers: string[]): Promise<Ticker>[] =>
+    tickers.map((ticker) =>
+      axios.get(`https://spectrocoin.com/scapi/ticker/${ticker}`).then((response: AxiosResponse<Ticker>) => ({
+        ...response.data,
+        name: ticker,
+        currentPrice: 1 / response.data.last,
+      })),
+    );
 
   fetchWalletBalance = async (): Promise<Wallet> => {
-    const {data} = await this.request<Ticker24hr[]>('/api/v3/ticker/24hr', {
-      symbols: JSON.stringify(Object.keys(balance)),
-    });
+    const tickers = await Promise.all(this.fetchBatchTickers(Object.keys(balance)));
 
     // Ideally, backend should calculate everything and return all the data at once, so client doesn't need to do any calculations
-    const totalUSD = data.reduce((sum, ticker) => (sum += parseFloat(ticker.lastPrice) * balance[ticker.symbol]), 0);
+    const totalUSD = tickers.reduce((sum, ticker) => (sum += ticker.currentPrice * balance[ticker.name]), 0);
 
     return {
       totalUSD,
-      balances: data.map(({symbol, lastPrice, priceChangePercent}) => ({
-        symbol: {
-          id: symbol,
-          name: symbol,
-          currentPrice: parseFloat(lastPrice),
-          dailyChangePercentage: parseFloat(priceChangePercent),
-        },
-        amount: balance[symbol],
+      balances: tickers.map(({name, currentPrice, currencyFrom}) => ({
+        symbol: {id: name, name, currentPrice, baseSymbol: currencyFrom},
+        amount: balance[name],
       })),
     };
   };

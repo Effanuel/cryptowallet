@@ -10,7 +10,6 @@ interface Props {
   errorMessage?: string;
   maxLength?: number;
   numeric?: boolean;
-  transformer?: (value: string) => string;
   validate?: (value: string) => boolean;
   onChangeValidity?: (isValid: boolean) => void;
 }
@@ -24,25 +23,26 @@ export default function InputField({
   errorMessage,
   onChangeValidity,
   maxLength,
-  transformer,
 }: Props) {
+  const emitChangeText = React.useCallback(
+    (value: string) => onChangeText(numeric ? numberTransformer(value) : value),
+    [onChangeText],
+  );
+
   return (
     <TextField
       migrate
-      onChangeText={onChangeText}
-      //   placeholderTextColor={Colors.white}
-      //   floatingPlaceholder
-      //   floatingPlaceholderColor={Colors.white}
+      onChangeText={emitChangeText}
+      placeholderTextColor={Colors.grey30}
       placeholder={placeholder}
       underlineColor="red"
       keyboardType={numeric ? 'numeric' : 'default'}
-      //   transformer={transformer ?? (numeric && numberTransformer)}
       //   validate={validate}
       style={styles.root}
       value={value}
       //   errorMessage={errorMessage}
       //   onChangeValidity={onChangeValidity}
-      //   maxLength={maxLength}
+      maxLength={maxLength}
     />
   );
 }
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   root: {
     marginTop: Spacings.s1,
     color: 'white',
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
 });
