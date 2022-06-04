@@ -1,7 +1,7 @@
 import type {ComponentType} from 'react';
 import {Navigation} from 'react-native-navigation';
 import {Screen} from './names';
-import {addProviders, System} from './wrappers';
+import {addContextProvider, System} from './wrappers';
 
 export function registerScreens(system: System) {
   const screens: [Screen, () => ComponentType<any>][] = [
@@ -10,7 +10,7 @@ export function registerScreens(system: System) {
   ];
 
   screens.forEach(([id, render]) => {
-    Navigation.registerComponent(id, () => addProviders(render(), system));
+    Navigation.registerComponent(id, () => addContextProvider(render(), system));
   });
 
   console.info('Screens were loaded.');

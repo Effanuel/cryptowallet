@@ -10,7 +10,7 @@ interface Ticker {
   last: number;
   lastHP: number;
   timestamp: number;
-  friendlyLast: '1 USD = 0.00003361 BTC';
+  friendlyLast: `1 USD = ${number} ${string}`;
 }
 
 const balance: Record<string, number> = {
@@ -49,9 +49,8 @@ export class WalletApiService {
     );
 
   fetchWalletBalance = async (): Promise<Wallet> => {
-    const tickers = await Promise.all(this.fetchBatchTickers(Object.keys(balance)));
-
     // Ideally, backend should calculate everything and return all the data at once, so client doesn't need to do any calculations
+    const tickers = await Promise.all(this.fetchBatchTickers(Object.keys(balance)));
     const totalUSD = tickers.reduce((sum, ticker) => (sum += ticker.currentPrice * balance[ticker.name]), 0);
 
     return {

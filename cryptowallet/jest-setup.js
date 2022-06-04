@@ -24,23 +24,15 @@ jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock
 jest.mock('react-native/Libraries/Components/Touchable/TouchableOpacity', () => mockComponent('TouchableOpacity'));
 
 jest.mock('./src/api/apiService', () => {
-  const WalletApiService = require('./test/proxy').networkProxy.setNetworkTarget(
-    jest.requireActual('./src/api/apiService').WalletApiService,
-    require('./test/proxy').tracker,
-  );
   return {
-    WalletApiService,
+    WalletApiService: require('./test/proxy').networkProxy.setNetworkTarget(
+      jest.requireActual('./src/api/apiService').WalletApiService,
+      require('./test/proxy').tracker,
+    ),
   };
 });
 
-jest.mock('react-i18next', () => ({
-  // this mock makes sure any components using the translate hook can use it without a warning being shown
-  useTranslation: () => {
-    return {
-      t: (str) => str,
-    };
-  },
-}));
+jest.mock('react-i18next', () => ({useTranslation: () => ({t: (str) => str})}));
 
 const {IgnoredErrors} = require('./test/common-errors');
 

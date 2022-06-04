@@ -13,7 +13,7 @@ export const AppContext = React.createContext<AppContext | undefined>(undefined)
 export function useAppContext(): AppContext {
   const context = React.useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useAppContext can only be used in screens wrapped with addProviders');
+    throw new Error('useAppContext can only be used in screens wrapped with addProvider');
   }
   return context;
 }

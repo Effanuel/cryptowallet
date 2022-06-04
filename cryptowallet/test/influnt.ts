@@ -1,7 +1,7 @@
 import {configureInflunt, spyModule} from 'influnt/dist/react-native';
 import {ComponentSettings} from 'influnt/dist/react-native/types';
 import {WalletApiService} from '../src/api/apiService';
-import {addProviders} from '../src/screens/wrappers';
+import {addContextProvider} from '../src/screens/wrappers';
 import {Navigation} from 'react-native-navigation';
 import {networkProxy} from './proxy';
 
@@ -26,7 +26,7 @@ export const createMainRenderer = <C extends React.ComponentType<InferProps<C>>>
   component: C,
   componentSettings: ComponentSettings<InferProps<C>, void> = {},
 ) => {
-  const element = addProviders(component, {api: () => new WalletApiService()});
+  const element = addContextProvider(component, {api: () => new WalletApiService()});
 
   return createRenderer(element, {
     ...componentSettings,

@@ -18,7 +18,7 @@ interface ReactNavigationProps {
   registerLifecycleMethods?: (methods: LifecycleMethods) => void;
 }
 
-export function addProviders<T>(Component: React.ComponentType<T>, system: System): React.ComponentType<T> {
+export function addContextProvider<T>(Component: React.ComponentType<T>, system: System): React.ComponentType<T> {
   function ProviderWrapper(props: T & ReactNavigationProps) {
     const {componentId} = props;
 
