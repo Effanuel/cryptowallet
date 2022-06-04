@@ -1,6 +1,6 @@
 import React from 'react';
-import {FlatList, ListRenderItem, RefreshControl} from 'react-native';
-import {Text, View} from 'react-native-ui-lib';
+import {ActivityIndicator, FlatList, ListRenderItem, RefreshControl, StyleSheet} from 'react-native';
+import {Button, Text, View} from 'react-native-ui-lib';
 import {useTranslation} from 'react-i18next';
 import BalanceItem from '../components/BalanceItem';
 import {useAppContext} from '../context/context';
@@ -32,7 +32,7 @@ export default function WalletDetails() {
     case 'loading':
       return (
         <View bg-dark paddingT-s4 flex>
-          <Text white>Loading</Text>
+          <ActivityIndicator size="large" style={styles.center} />
         </View>
       );
     case 'refetch':
@@ -63,8 +63,11 @@ export default function WalletDetails() {
       );
     case 'error':
       return (
-        <View bg-dark paddingT-s4 flex>
-          <Text white>{status.message}</Text>
+        <View bg-dark paddingT-s4 flex paddingH-s4>
+          <Text white text60L center marginB-s4>
+            {status.message}
+          </Text>
+          <Button label={t('WalletDetails.Error.CTA')} bg-black round={false} onPress={retrigger} />
         </View>
       );
   }
@@ -73,5 +76,11 @@ export default function WalletDetails() {
 WalletDetails.options = () => ({
   topBar: {
     title: {text: 'Wallet'},
+  },
+});
+
+const styles = StyleSheet.create({
+  center: {
+    justifyContent: 'center',
   },
 });
