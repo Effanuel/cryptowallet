@@ -1,5 +1,5 @@
 import Chance from 'chance';
-import {Wallet} from '../api/apiService';
+import {Wallet} from '../src/api/apiService';
 
 const chance = new Chance();
 
@@ -7,7 +7,7 @@ export function forgeWallet(totalUSD: number, symbols: string[]): Wallet {
   return {
     totalUSD,
     balances: symbols.map((symbol) => ({
-      symbol: {id: chance.guid(), name: symbol, currentPrice: 666},
+      symbol: {id: chance.guid(), name: symbol, currentPrice: 666, baseSymbol: 'B', quoteSymbol: 'Q'},
       amount: 123,
       dailyChangePercentage: 3,
     })),

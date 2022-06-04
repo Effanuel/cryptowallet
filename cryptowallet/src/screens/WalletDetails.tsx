@@ -1,20 +1,22 @@
 import React from 'react';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, RefreshControl} from 'react-native';
 import {Text, View} from 'react-native-ui-lib';
+import {useTranslation} from 'react-i18next';
 import BalanceItem from '../components/BalanceItem';
 import {useAppContext} from '../context/context';
 import {Balance} from '../api/apiService';
 import {useWalletQuery} from '../api/actions';
 import {WALLET} from '../test-ids';
-import TotalBalanceSection from '../components/TotalBalanceSection';
 import Divider from '../components/Divider';
+import Price from '../components/Price';
 
 const keyExtractor = (balance: Balance) => balance.symbol.id;
 
 export default function WalletDetails() {
   const {navigator} = useAppContext();
+  const {t} = useTranslation();
 
-  const data = useWalletQuery();
+  const [status, retrigger] = useWalletQuery();
 
   const openCurrencyDetails = React.useCallback(
     (balance: Balance) => navigator.openCurrencyDetails({balance}),
@@ -26,30 +28,45 @@ export default function WalletDetails() {
     [navigator],
   );
 
-  switch (data.type) {
+  switch (status.type) {
     case 'loading':
-      return <Text>LOADING</Text>;
+      return (
+        <View bg-dark paddingT-s4 flex>
+          <Text white>Loading</Text>
+        </View>
+      );
+    case 'refetch':
     case 'success':
       return (
-        <View bg-dark paddingT-s4 flex paddingH-s5>
-          <TotalBalanceSection amount={data.result.totalUSD} />
-          <Divider />
-          {data.result.totalUSD === 0 ? (
+        <View bg-dark paddingT-s4 flex>
+          <View center>
+            <Text white text60L marginB-2>
+              {t('WalletDetails.Title')}
+            </Text>
+            <Price testID={WALLET.PRICE} amount={status.result.totalUSD} text40L />
+          </View>
+          <Divider marginB-0 />
+          {status.result.totalUSD === 0 ? (
             <Text white text60L center testID={WALLET.EMPTY_STATE}>
-              You balance is currently empty.
+              {t('WalletDetails.Empty.Title')}
             </Text>
           ) : (
             <FlatList
               keyExtractor={keyExtractor}
-              data={data.result.balances}
+              data={status.result.balances}
               renderItem={renderBalanceItem}
               initialNumToRender={20}
+              refreshControl={<RefreshControl refreshing={status.type === 'refetch'} onRefresh={retrigger} />}
             />
           )}
         </View>
       );
     case 'error':
-      return <Text>{data.message}</Text>;
+      return (
+        <View bg-dark paddingT-s4 flex>
+          <Text white>{status.message}</Text>
+        </View>
+      );
   }
 }
 

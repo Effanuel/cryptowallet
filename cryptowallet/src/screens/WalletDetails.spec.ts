@@ -1,7 +1,7 @@
 import {countOf, exists, respond, textOf} from 'influnt/dist/react-native';
 import {WALLET} from '../test-ids';
-import {createMainRenderer} from '../tests/influnt';
-import {forgeWallet} from '../tests/responses';
+import {createMainRenderer} from '../../test/influnt';
+import {forgeWallet} from '../../test/responses';
 import {Screen} from './names';
 import WalletDetails from './WalletDetails';
 
@@ -29,7 +29,7 @@ describe('WalletDetails', () => {
       .inspect({symbolCount: countOf(WALLET.ROW), priceText: textOf(WALLET.PRICE)});
 
     expect(result).toEqual({
-      priceText: '777',
+      priceText: '777.000',
       symbolCount: 2,
       network: [{fetchWalletBalance: [undefined]}],
     });
@@ -49,7 +49,7 @@ describe('WalletDetails', () => {
               balance: {
                 amount: 123,
                 dailyChangePercentage: 3,
-                symbol: {currentPrice: 666, id: expect.any(String), name: 'btc'},
+                symbol: {currentPrice: 666, id: expect.any(String), name: 'btc', baseSymbol: 'B', quoteSymbol: 'Q'},
               },
             },
           ],

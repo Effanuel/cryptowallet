@@ -56,12 +56,12 @@ describe('numberPrettier', () => {
   const {numberPrettier} = uut;
 
   it('should not change formatting of numbers below 10k', () => {
-    expect(numberPrettier(2.5)).toEqual('2.5');
-    expect(numberPrettier(123)).toEqual('123');
-    expect(numberPrettier(9999.999)).toEqual('9999.999');
-    expect(numberPrettier(500.0005)).toEqual('500.0005');
-    expect(numberPrettier(0)).toEqual('0');
-    expect(numberPrettier(5)).toEqual('5');
+    expect(numberPrettier(2.5)).toEqual('2.500');
+    expect(numberPrettier(123)).toEqual('123.000');
+    expect(numberPrettier(9999.999)).toEqual('9,999.999');
+    expect(numberPrettier(500.0005)).toEqual('500.000');
+    expect(numberPrettier(0)).toEqual('0.000');
+    expect(numberPrettier(5)).toEqual('5.000');
   });
 
   it('should format numbers above 10k', () => {
@@ -83,5 +83,19 @@ describe('numberPrettier', () => {
     expect(numberPrettier(1_500_300)).toEqual('1.5M');
     expect(numberPrettier(9_910_123)).toEqual('9.91M');
     expect(numberPrettier(456_910_123)).toEqual('456.91M');
+  });
+});
+
+describe('format()', () => {
+  const {numberFormatter: format} = uut;
+
+  it('should format numbers above 1000', () => {
+    expect(format(1234.123, {decimal: {len: 3, delim: '.'}, whole: {len: 3, delim: ','}})).toEqual('1,234.123');
+    expect(format(9234, {decimal: {len: 3, delim: '.'}, whole: {len: 3, delim: ','}})).toEqual('9,234.000');
+  });
+
+  it('should format numbers above 10k', () => {
+    expect(format(12345.123, {decimal: {len: 3, delim: '.'}, whole: {len: 3, delim: ','}})).toEqual('12,345.123');
+    expect(format(92345, {decimal: {len: 3, delim: '.'}, whole: {len: 3, delim: ','}})).toEqual('92,345.000');
   });
 });

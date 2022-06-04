@@ -1,9 +1,11 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {View} from 'react-native-ui-lib';
+import {View, ViewProps} from 'react-native-ui-lib';
 
-export default function Divider() {
-  return <View marginV-s4 style={styles.root} />;
+type Props = ViewProps;
+
+export default function Divider(props: Props) {
+  return <View marginV-s4 {...props} style={styles.root} />;
 }
 
 const styles = StyleSheet.create({

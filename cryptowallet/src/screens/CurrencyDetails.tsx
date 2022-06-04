@@ -5,7 +5,8 @@ import TickerBalanceSection from '../components/TickerBalanceSection';
 import Divider from '../components/Divider';
 import InputField from '../components/InputField';
 import PriceSection from '../components/PriceSection';
-import {numberPrettier} from '../general/utils';
+import {useTranslation} from 'react-i18next';
+import Price from '../components/Price';
 
 interface Props {
   balance: Balance;
@@ -14,9 +15,9 @@ interface Props {
 export default function CurrencyDetails({balance}: Props) {
   const [state, setState] = React.useState<string | null>('');
 
-  const value = !state
-    ? '0'
-    : numberPrettier(isNaN(parseFloat(state)) ? 0 : parseFloat(state) * balance.symbol.currentPrice);
+  const {t} = useTranslation();
+
+  const value = !state ? 0 : isNaN(parseFloat(state)) ? 0 : parseFloat(state) * balance.symbol.currentPrice;
 
   return (
     <View bg-dark flex paddingH-s4 paddingT-s4>
@@ -24,12 +25,17 @@ export default function CurrencyDetails({balance}: Props) {
       <Divider />
       <PriceSection balance={balance} />
       <Divider />
-
       <Text text70L white>
-        Check amount
+        {t('CurrencyDetails.CheckAmount.Title')}
       </Text>
-      <InputField onChangeText={setState} placeholder="Enter amount" value={state !== null ? '' + state : ''} numeric />
-      <Text text50L white>{` = $${value}`}</Text>
+      <InputField
+        onChangeText={setState}
+        placeholder={t('CurrencyDetails.CheckAmount.Placeholder', {symbol: balance.symbol.baseSymbol})}
+        value={state !== null ? '' + state : ''}
+        numeric
+        maxLength={15}
+      />
+      <Price amount={value} text50L format={false} />
       <Divider />
     </View>
   );

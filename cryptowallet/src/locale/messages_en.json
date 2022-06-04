@@ -1,0 +1,9 @@
+{
+  "WalletDetails.Title": "Total Balance",
+  "WalletDetails.Item.Price": "Current Price",
+  "WalletDetails.Empty.Title": " You balance is currently empty.",
+  "CurrencyDetails.Title": "Ticker Balance",
+  "CurrencyDetails.CheckAmount.Title": "Calculate value in USD",
+  "CurrencyDetails.CheckAmount.Placeholder": "Enter {{symbol}} amount...",
+  "CurrencyDetails.Price.Title": "Current price"
+}

@@ -5,12 +5,12 @@ interface Ticker {
   name: string;
   currentPrice: number;
   currencyFrom: string;
-  currencyFromScale: 8;
+  currencyFromScale: number;
   currencyTo: string;
-  currencyToScale: 2;
-  last: 0.00003361;
-  lastHP: 0.0000336140841426376249125599381725069145;
-  timestamp: 1654295725045;
+  currencyToScale: number;
+  last: number;
+  lastHP: number;
+  timestamp: number;
   friendlyLast: '1 USD = 0.00003361 BTC';
 }
 
@@ -26,6 +26,7 @@ interface ISymbol {
   name: string;
   currentPrice: number;
   baseSymbol: string;
+  quoteSymbol: string;
 }
 
 export interface Balance {
@@ -56,8 +57,8 @@ export class WalletApiService {
 
     return {
       totalUSD,
-      balances: tickers.map(({name, currentPrice, currencyFrom}) => ({
-        symbol: {id: name, name, currentPrice, baseSymbol: currencyFrom},
+      balances: tickers.map(({name, currentPrice, currencyFrom, currencyTo}) => ({
+        symbol: {id: name, name, currentPrice, baseSymbol: currencyFrom, quoteSymbol: currencyTo},
         amount: balance[name],
       })),
     };

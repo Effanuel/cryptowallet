@@ -1,21 +1,16 @@
+import type {ComponentType} from 'react';
 import {Navigation} from 'react-native-navigation';
 import {Screen} from './names';
 import {addProviders, System} from './wrappers';
 
 export function registerScreens(system: System) {
-  const screens = [
-    {
-      id: Screen.WalletDetails,
-      render: () => addProviders(require('../screens/WalletDetails').default, system),
-    },
-    {
-      id: Screen.CurrencyDetails,
-      render: () => addProviders(require('../screens/CurrencyDetails').default, system),
-    },
+  const screens: [Screen, () => ComponentType<any>][] = [
+    [Screen.WalletDetails, () => require('../screens/WalletDetails').default],
+    [Screen.CurrencyDetails, () => require('../screens/CurrencyDetails').default],
   ];
 
-  screens.forEach(({id, render}) => {
-    Navigation.registerComponent(id, render);
+  screens.forEach(([id, render]) => {
+    Navigation.registerComponent(id, () => addProviders(render(), system));
   });
 
   console.info('Screens were loaded.');

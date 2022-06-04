@@ -1,26 +1,25 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Text, View} from 'react-native-ui-lib';
 import {Balance} from '../api/apiService';
+import Price from './Price';
 
 interface Props {
   balance: Balance;
 }
 
 export default function PriceSection({balance}: Props) {
+  const {t} = useTranslation();
+
   return (
     <View center>
-      <Text white text60L marginB-2>
+      <Text white text60L>
         {balance.symbol.name}
       </Text>
-      <View row marginB-2>
-        <Text color="#4caf50" text40L>
-          {`$ `}
-        </Text>
-        <Text white text40L>
-          {balance.symbol.currentPrice}
-        </Text>
+      <View row marginV-2>
+        <Price amount={balance.symbol.currentPrice} format={false} text40L />
       </View>
-      <Text white>current price</Text>
+      <Text white>{t('CurrencyDetails.Price.Title')}</Text>
     </View>
   );
 }
