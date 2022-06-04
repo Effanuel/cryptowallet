@@ -26,6 +26,7 @@ type Configurator<T, P> = (context: AppContext) => {
 export function useNetworkExecutor<T, P>({params}: Options<P>, configurator: Configurator<T, P>): Executor<T, P> {
   const appContext = useAppContext();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const {execute} = React.useMemo(() => configurator(appContext), [appContext]);
 
   const [state, setState] = React.useState((): State<T, P> => {

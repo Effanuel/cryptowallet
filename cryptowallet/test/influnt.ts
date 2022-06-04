@@ -1,5 +1,5 @@
 import {configureInflunt, spyModule} from 'influnt/dist/react-native';
-import {ComponentSettings, HocFacadeConfig} from 'influnt/dist/react-native/types';
+import {ComponentSettings} from 'influnt/dist/react-native/types';
 import {WalletApiService} from '../src/api/apiService';
 import {addProviders} from '../src/screens/wrappers';
 import {Navigation} from 'react-native-navigation';

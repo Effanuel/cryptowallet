@@ -25,7 +25,7 @@ export default function WalletDetails() {
 
   const renderBalanceItem: ListRenderItem<Balance> = React.useCallback(
     ({item}) => <BalanceItem testID={WALLET.ROW} balance={item} onPress={openCurrencyDetails} />,
-    [navigator],
+    [openCurrencyDetails],
   );
 
   switch (status.type) {

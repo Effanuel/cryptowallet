@@ -12,8 +12,8 @@ interface Props {
 
 export default function InputField({onChangeText, placeholder, value, numeric, maxLength}: Props) {
   const emitChangeText = React.useCallback(
-    (value: string) => onChangeText(numeric ? numberTransformer(value) : value),
-    [onChangeText],
+    (text: string) => onChangeText(numeric ? numberTransformer(text) : text),
+    [onChangeText, numeric],
   );
 
   return (
@@ -22,7 +22,6 @@ export default function InputField({onChangeText, placeholder, value, numeric, m
       onChangeText={emitChangeText}
       placeholderTextColor={Colors.grey30}
       placeholder={placeholder}
-      underlineColor="red"
       keyboardType={numeric ? 'numeric' : 'default'}
       value={value}
       maxLength={maxLength}

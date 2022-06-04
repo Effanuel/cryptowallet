@@ -17,9 +17,9 @@ export default function TickerBalanceSection({balance}: Props) {
       </Text>
       <Price amount={balance.amount} text40L baseSymbol={balance.symbol.baseSymbol} marginV-2 />
       <View row>
-        <Text white>{`(`}</Text>
+        <Text white>{'('}</Text>
         <Price amount={balance.symbol.currentPrice * balance.amount} />
-        <Text white>{`)`}</Text>
+        <Text white>{')'}</Text>
       </View>
     </View>
   );

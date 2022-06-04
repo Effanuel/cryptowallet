@@ -1,5 +1,4 @@
 import axios, {AxiosResponse} from 'axios';
-import {Ticker24hr} from './BinanceTypes';
 
 interface Ticker {
   name: string;
