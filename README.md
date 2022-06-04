@@ -9,6 +9,6 @@ cd ../ && npx react-native start
 
 In second terminal window:
 
-```ts
+```sh
 npx react-native run-ios
 ```
