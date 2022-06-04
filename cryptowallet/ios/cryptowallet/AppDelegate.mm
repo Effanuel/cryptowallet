@@ -3,6 +3,7 @@
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
+#import "RNSplashScreen.h"  // here
 
 #import <React/RCTAppSetupUtils.h>
 
@@ -43,7 +44,7 @@
 #endif
 
   
-
+  [RNSplashScreen show];  // here
   
 
   return YES;

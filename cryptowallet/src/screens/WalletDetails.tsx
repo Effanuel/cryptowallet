@@ -2,6 +2,7 @@ import React from 'react';
 import {ActivityIndicator, FlatList, ListRenderItem, RefreshControl, StyleSheet} from 'react-native';
 import {Button, Text, View} from 'react-native-ui-lib';
 import {useTranslation} from 'react-i18next';
+import SplashScreen from 'react-native-splash-screen';
 import BalanceItem from '../components/BalanceItem';
 import {useAppContext} from '../context/context';
 import {Balance} from '../api/apiService';
@@ -17,6 +18,10 @@ export default function WalletDetails() {
   const {t} = useTranslation();
 
   const [status, retrigger] = useWalletQuery();
+
+  React.useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   const openCurrencyDetails = React.useCallback(
     (balance: Balance) => navigator.openCurrencyDetails({balance}),

@@ -20,6 +20,7 @@
     "react-native-gesture-handler": "^2.4.2",
     "react-native-navigation": "^7.28.0",
     "react-native-reanimated": "^2.8.0",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-ui-lib": "^6.16.1",
     "rnnjs": "^0.1.17"
   },
